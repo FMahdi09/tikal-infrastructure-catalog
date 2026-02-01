@@ -1,0 +1,26 @@
+{
+  "name": "Terraform Development",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "version": "1.14.4",
+      "tflint": "0.60.0",
+      "terragrunt": "0.99.1"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "hashicorp.hcl"
+      ],
+      "settings": {
+        "terraform.languageServer.enable": true,
+        "files.associations": {
+          "*.hcl": "hcl",
+          "*.terragrunt": "hcl"
+        }
+      }
+    }
+  },
+  "remoteUser": "vscode"
+}
