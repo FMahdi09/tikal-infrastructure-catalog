@@ -1,17 +1,15 @@
 {
-  "name": "Terraform Development",
+  "name": "Terragrunt Development",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
   "features": {
-    "ghcr.io/devcontainers/features/terraform:1": {
-      "version": "1.14.4",
-      "tflint": "0.60.0",
-      "terragrunt": "0.99.1"
-    }
+    "ghcr.io/devcontainers-extra/features/mise:1": {}
   },
   "customizations": {
     "vscode": {
       "extensions": [
-        "hashicorp.hcl"
+        "hashicorp.hcl",
+        "hverlin.mise-vscode",
+        "tombi-toml.tombi"
       ],
       "settings": {
         "terraform.languageServer.enable": true,
@@ -22,5 +20,6 @@
       }
     }
   },
+  "postCreateCommand": "mise trust .mise.toml && mise install",
   "remoteUser": "vscode"
 }

@@ -1,0 +1,13 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/label-commenter-config.json
+area/github:
+  - changed-files:
+      - any-glob-to-any-file: ".github/**/*"
+
+area/terragrunt:
+  - changed-files:
+      - any-glob-to-any-file: "*.hcl"
+
+area/docs:
+  - changed-files:
+      - any-glob-to-any-file: "*.md"
