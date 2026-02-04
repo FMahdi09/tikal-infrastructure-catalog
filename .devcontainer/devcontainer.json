@@ -14,8 +14,7 @@
       "settings": {
         "terraform.languageServer.enable": true,
         "files.associations": {
-          "*.hcl": "hcl",
-          "*.terragrunt": "hcl"
+          "*.tf": "hcl"
         }
       }
     }
