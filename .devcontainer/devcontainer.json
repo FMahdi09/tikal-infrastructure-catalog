@@ -7,15 +7,12 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "hashicorp.hcl",
+        "hashicorp.terraform",
         "hverlin.mise-vscode",
         "tombi-toml.tombi"
       ],
       "settings": {
-        "terraform.languageServer.enable": true,
-        "files.associations": {
-          "*.tf": "hcl"
-        }
+        "terraform.languageServer.enable": true
       }
     }
   },
