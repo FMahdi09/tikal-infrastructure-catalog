@@ -4,9 +4,9 @@ area/github:
   - changed-files:
       - any-glob-to-any-file: ".github/**/*"
 
-area/terragrunt:
+area/terraform:
   - changed-files:
-      - any-glob-to-any-file: "*.hcl"
+      - any-glob-to-any-file: "**/*.tf"
 
 area/docs:
   - changed-files:
