@@ -1,8 +1,9 @@
 variable "subnets" {
   description = "Map of subnets to create inside the virual network"
   type = map(object({
-    address_prefixes  = list(string)
-    service_endpoints = optional(list(string), [])
+    private_endpoint_network_policies = optional(string)
+    address_prefixes                  = list(string)
+    service_endpoints                 = optional(list(string), [])
     delegation = optional(object({
       name = string
       service_delegation = object({
