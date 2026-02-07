@@ -69,15 +69,3 @@ resource "azurerm_private_endpoint" "identity-api" {
     is_manual_connection           = false
   }
 }
-
-resource "azurerm_container_registry_webhook" "frontend" {
-  name                = "${var.name}Webhook"
-  resource_group_name = azurerm_resource_group.rg.name
-  registry_name       = var.container_registry_name
-  location            = var.region
-
-  service_uri = "https://${azurerm_linux_web_app.service.site_credential.0.name}:${azurerm_linux_web_app.service.site_credential.0.password}@${azurerm_linux_web_app.service.name}.scm.azurewebsites.net/api/registry/webhook"
-  status      = "enabled"
-  scope       = var.image_name
-  actions     = ["push"]
-}

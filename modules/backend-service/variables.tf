@@ -38,11 +38,6 @@ variable "image_name" {
   type        = string
 }
 
-variable "container_registry_name" {
-  description = "The name of the container registry which the service will query for the given image"
-  type        = string
-}
-
 variable "container_registry_url" {
   description = "The url of the container registry which the service will query for the given image"
   type        = string
