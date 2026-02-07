@@ -10,7 +10,7 @@ resource "azurerm_user_assigned_identity" "identity" {
 }
 
 resource "azurerm_role_assignment" "arc-pull" {
-  scope                = var.subscription_id
+  scope                = "/subscriptions/${var.subscription_id}"
   role_definition_name = "AcrPull"
   principal_id         = azurerm_user_assigned_identity.identity.principal_id
 }
