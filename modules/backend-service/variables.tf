@@ -18,12 +18,12 @@ variable "environment" {
   type        = string
 }
 
-variable "virtual_network_id" {
-  description = "The id of the virtual network in which the service will be deployed"
+variable "service_subnet_id" {
+  description = "The id of the subnet in which the service will be deployed"
   type        = string
 }
 
-variable "subnet_id" {
+variable "endpoint_subnet_id" {
   description = "The id of the subnet in which the private endpoint used to access the service will be deployed"
   type        = string
 }

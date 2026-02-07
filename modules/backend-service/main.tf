@@ -20,7 +20,7 @@ resource "azurerm_linux_web_app" "service" {
   resource_group_name       = azurerm_resource_group.rg.name
   location                  = var.region
   service_plan_id           = var.service_plan_id
-  virtual_network_subnet_id = var.virtual_network_id
+  virtual_network_subnet_id = var.service_subnet_id
 
   site_config {
     ip_restriction_default_action = "Deny"
@@ -55,7 +55,7 @@ resource "azurerm_private_endpoint" "identity-api" {
   name                = "${var.environment}-${var.region}-${var.name}-private-endpoint"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  subnet_id           = var.subnet_id
+  subnet_id           = var.endpoint_subnet_id
 
   private_dns_zone_group {
     name                 = "${var.name}-private-dns-zone-group"
