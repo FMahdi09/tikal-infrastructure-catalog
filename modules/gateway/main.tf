@@ -68,7 +68,7 @@ resource "azurerm_application_gateway" "gateway" {
 
   gateway_ip_configuration {
     name      = "gateway-ip-config"
-    subnet_id = azurerm_subnet.application-gateway.id
+    subnet_id = var.subnet_id
   }
 
   frontend_port {
