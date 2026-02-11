@@ -16,15 +16,6 @@ resource "azurerm_resource_group" "rg" {
   location = var.region
 }
 
-resource "azurerm_public_ip" "gateway" {
-  name                = "gateway-ip"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = var.region
-  allocation_method   = "Static"
-
-  zones = ["1"]
-}
-
 resource "azurerm_user_assigned_identity" "gateway" {
   resource_group_name = azurerm_resource_group.rg.name
   location            = var.region
@@ -88,7 +79,7 @@ resource "azurerm_application_gateway" "gateway" {
 
   frontend_ip_configuration {
     name                 = local.frontend_ip_configuration_name
-    public_ip_address_id = azurerm_public_ip.gateway.id
+    public_ip_address_id = var.public_ip_id
   }
 
   probe {
