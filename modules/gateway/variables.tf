@@ -8,6 +8,11 @@ variable "environment" {
   type        = string
 }
 
+variable "subnet_id" {
+  description = "The id of the subnet used by the gateway"
+  type        = string
+}
+
 variable "public_ip_id" {
   description = "The id of the public ip used by the gateway"
   type        = string
