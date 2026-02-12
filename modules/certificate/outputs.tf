@@ -6,7 +6,7 @@ output "key_vault_id" {
 output "key_vault_secret_ids" {
   description = "The ids of the certificates inside the key vault"
   value = {
-    for k, v in azurerm_key_vault_certificate.certificates : k => {
+    for k, v in data.azurerm_key_vault_certificate.certificates : k => {
       secret_id = v.versionless_secret_id
     }
   }

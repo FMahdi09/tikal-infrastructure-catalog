@@ -215,6 +215,13 @@ resource "azurerm_key_vault_certificate" "certificates" {
   depends_on = [azurerm_key_vault_access_policy.client-config]
 }
 
+data "azurerm_key_vault_certificate" "certificates" {
+  for_each = azurerm_key_vault_certificate.certificates
+
+  name         = each.value.name
+  key_vault_id = each.value.key_vault_id
+}
+
 resource "acme_certificate" "certificates" {
   for_each                      = var.certificates
   account_key_pem               = acme_registration.current.account_key_pem
