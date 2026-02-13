@@ -11,6 +11,11 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
+data "azurerm_key_vault_certificate" "certificate" {
+  name         = var.certificate_name
+  key_vault_id = var.key_vault_id
+}
+
 resource "azurerm_resource_group" "rg" {
   name     = "${var.environment}-${var.region}-gateway-rg"
   location = var.region
@@ -63,7 +68,7 @@ resource "azurerm_application_gateway" "gateway" {
 
   ssl_certificate {
     name                = local.certificate_name
-    key_vault_secret_id = var.key_vault_secret_id
+    key_vault_secret_id = data.azurerm_key_vault_certificate.certificate.versionless_secret_id
   }
 
   gateway_ip_configuration {
