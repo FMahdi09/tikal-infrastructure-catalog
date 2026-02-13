@@ -23,8 +23,8 @@ variable "key_vault_id" {
   type        = string
 }
 
-variable "key_vault_secret_id" {
-  description = "The id of the keyvault certificate which should be used"
+variable "certificate_name" {
+  description = "The name of the certificate which should be used"
   type        = string
 }
 
