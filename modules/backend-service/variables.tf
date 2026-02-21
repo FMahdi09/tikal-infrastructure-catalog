@@ -47,3 +47,21 @@ variable "service_plan_id" {
   description = "The id of the service plan used to provision resources for this service"
   type        = string
 }
+
+variable "database_server_name" {
+  description = "Name of the database server"
+  type        = string
+}
+
+variable "database_resource_group_name" {
+  description = "Name of the resource group of the database server"
+  type        = string
+}
+
+variable "database_credentials" {
+  description = "Admin credentials of the postgres servier"
+  type = object({
+    user     = string
+    password = string
+  })
+}

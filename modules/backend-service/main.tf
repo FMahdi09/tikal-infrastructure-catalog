@@ -69,3 +69,19 @@ resource "azurerm_private_endpoint" "identity-api" {
     is_manual_connection           = false
   }
 }
+
+data "azurerm_postgresql_flexible_server" "postgres" {
+  name                = var.database_server_name
+  resource_group_name = var.database_resource_group_name
+}
+
+resource "azurerm_postgresql_flexible_server_database" "database" {
+  name      = "${var.name}-db"
+  server_id = data.azurerm_postgresql_flexible_server.postgres.id
+  collation = "en_US.utf8"
+  charset   = "UTF8"
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
