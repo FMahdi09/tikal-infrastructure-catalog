@@ -85,3 +85,58 @@ resource "azurerm_postgresql_flexible_server_database" "database" {
     prevent_destroy = false
   }
 }
+
+data "azurerm_client_config" "current" {}
+
+resource "azurerm_key_vault" "current" {
+  name                        = "${name}-keyvault"
+  location                    = azurerm_resource_group.rg.location
+  resource_group_name         = azurerm_resource_group.rg.name
+  enabled_for_disk_encryption = true
+  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = false
+
+  sku_name = "standard"
+}
+
+resource "azurerm_key_vault_access_policy" "client-config" {
+  key_vault_id = azurerm_key_vault.current.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = azurerm_user_assigned_identity.identity.principal_id
+
+  secret_permissions = [
+    "Get",
+    "List",
+  ]
+}
+
+resource "azurerm_key_vault_secret" "db_password" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Password"
+  value        = var.database_credentials.password
+}
+
+resource "azurerm_key_vault_secret" "db_username" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Username"
+  value        = var.database_credentials.user
+}
+
+resource "azurerm_key_vault_secret" "db_port" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Port"
+  value        = 5432
+}
+
+resource "azurerm_key_vault_secret" "db_host" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--Host"
+  value        = data.azurerm_postgresql_flexible_server.postgres.fqdn
+}
+
+resource "azurerm_key_vault_secret" "identity_db_name" {
+  key_vault_id = azurerm_key_vault.current.id
+  name         = "Database--DatabaseName"
+  value        = "${var.name}-db"
+}
