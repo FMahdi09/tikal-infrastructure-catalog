@@ -31,8 +31,9 @@ variable "certificate_name" {
 variable "listeners" {
   description = "Map of listeners of the gateway"
   type = map(object({
-    hostname = string
-    fqdn     = string
-    priority = number
+    hostname   = string
+    fqdn       = optional(string)
+    ip_address = optional(string)
+    priority   = number
   }))
 }
