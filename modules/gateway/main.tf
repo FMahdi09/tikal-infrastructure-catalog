@@ -1,10 +1,6 @@
 locals {
   certificate_name = "certificate"
 
-  http_health_check_probe_name = "http-health-check-probe"
-
-  backend_http_settings_name = "backend-http-settings"
-
   frontend_ip_configuration_name = "frontend-ip-configuration"
   frontend_port_name             = "frontend-port"
 }
@@ -87,27 +83,34 @@ resource "azurerm_application_gateway" "gateway" {
     public_ip_address_id = var.public_ip_id
   }
 
-  probe {
-    name                                      = local.http_health_check_probe_name
-    protocol                                  = "Http"
-    path                                      = "/healthcheck"
-    interval                                  = 240
-    timeout                                   = 30
-    unhealthy_threshold                       = 3
-    pick_host_name_from_backend_http_settings = true
-    match {
-      body        = "Healthy"
-      status_code = [200]
+  dynamic "probe" {
+    for_each = var.listeners
+
+    content {
+      name                                      = "${probe.key}-probe"
+      protocol                                  = "Http"
+      path                                      = probe.value.probe.path
+      interval                                  = 240
+      timeout                                   = 30
+      unhealthy_threshold                       = 3
+      pick_host_name_from_backend_http_settings = true
+      port                                      = probe.value.probe.port != null ? probe.value.probe.port : null
+      match {
+        status_code = [200]
+      }
     }
   }
 
-  backend_http_settings {
-    name                                = local.backend_http_settings_name
-    cookie_based_affinity               = "Disabled"
-    port                                = 80
-    protocol                            = "Http"
-    probe_name                          = local.http_health_check_probe_name
-    pick_host_name_from_backend_address = true
+  dynamic "backend_http_settings" {
+    for_each = var.listeners
+    content {
+      name                                = "${backend_http_settings.key}-http-settings"
+      cookie_based_affinity               = "Disabled"
+      port                                = backend_http_settings.value.port
+      protocol                            = "Http"
+      probe_name                          = "${backend_http_settings.key}-probe"
+      pick_host_name_from_backend_address = true
+    }
   }
 
   dynamic "http_listener" {
@@ -130,7 +133,7 @@ resource "azurerm_application_gateway" "gateway" {
       rule_type                  = "Basic"
       http_listener_name         = "${request_routing_rule.key}-listener"
       backend_address_pool_name  = "${request_routing_rule.key}-pool"
-      backend_http_settings_name = local.backend_http_settings_name
+      backend_http_settings_name = "${request_routing_rule.key}-http-settings"
     }
   }
 

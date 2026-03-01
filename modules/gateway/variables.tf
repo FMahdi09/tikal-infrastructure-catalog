@@ -32,8 +32,13 @@ variable "listeners" {
   description = "Map of listeners of the gateway"
   type = map(object({
     hostname   = string
+    port       = number
     fqdn       = optional(string)
     ip_address = optional(string)
     priority   = number
+    probe = object({
+      path = string
+      port = optional(number)
+    })
   }))
 }
