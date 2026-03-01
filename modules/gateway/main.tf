@@ -137,8 +137,9 @@ resource "azurerm_application_gateway" "gateway" {
   dynamic "backend_address_pool" {
     for_each = var.listeners
     content {
-      name  = "${backend_address_pool.key}-pool"
-      fqdns = [backend_address_pool.value.fqdn]
+      name         = "${backend_address_pool.key}-pool"
+      fqdns        = backend_address_pool.value.fqdn != null ? [backend_address_pool.value.fqdn] : null
+      ip_addresses = backend_address_pool.value.ip_address != null ? [backend_address_pool.value.ip_address] : null
     }
   }
 }
