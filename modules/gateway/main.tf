@@ -85,7 +85,6 @@ resource "azurerm_application_gateway" "gateway" {
 
   dynamic "probe" {
     for_each = var.listeners
-
     content {
       name                                      = "${probe.key}-probe"
       protocol                                  = "Http"
