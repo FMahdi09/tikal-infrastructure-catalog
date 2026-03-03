@@ -8,6 +8,11 @@ variable "environment" {
   type        = string
 }
 
+variable "virtual_network_id" {
+  description = "The id of the virtual network in which the private dns zone will be deployed"
+  type        = string
+}
+
 variable "subnet_id" {
   description = "The id of the subnet in which the otel collector will be deployed"
   type        = string

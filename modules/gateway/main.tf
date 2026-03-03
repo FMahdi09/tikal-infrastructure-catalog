@@ -87,7 +87,7 @@ resource "azurerm_application_gateway" "gateway" {
     for_each = var.listeners
     content {
       name                                      = "${probe.key}-probe"
-      protocol                                  = "Http"
+      protocol                                  = probe.value.port == 443 ? "Https" : "Http"
       path                                      = probe.value.probe.path
       interval                                  = 240
       timeout                                   = 30
@@ -95,7 +95,7 @@ resource "azurerm_application_gateway" "gateway" {
       pick_host_name_from_backend_http_settings = true
       port                                      = probe.value.probe.port != null ? probe.value.probe.port : null
       match {
-        status_code = [200]
+        status_code = [200, 404]
       }
     }
   }
@@ -106,7 +106,7 @@ resource "azurerm_application_gateway" "gateway" {
       name                                = "${backend_http_settings.key}-http-settings"
       cookie_based_affinity               = "Disabled"
       port                                = backend_http_settings.value.port
-      protocol                            = "Http"
+      protocol                            = backend_http_settings.value.port == 443 ? "Https" : "Http"
       probe_name                          = "${backend_http_settings.key}-probe"
       pick_host_name_from_backend_address = true
     }
