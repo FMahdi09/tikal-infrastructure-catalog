@@ -84,7 +84,7 @@ resource "azurerm_container_app" "this" {
     container {
       name   = "otel-collector"
       image  = "otel/opentelemetry-collector-contrib:latest"
-      cpu    = 0.25
+      cpu    = 0.2
       memory = "0.5Gi"
 
       volume_mounts {
