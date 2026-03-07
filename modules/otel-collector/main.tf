@@ -26,7 +26,7 @@ resource "azurerm_storage_share_file" "otel_config_file" {
 }
 
 resource "azurerm_container_app_environment" "this" {
-  name                               = "${var.environment}-${var.region}-otel-container-env"
+  name                               = "${var.environment}-${var.region}-container-environment"
   location                           = azurerm_resource_group.rg.location
   resource_group_name                = azurerm_resource_group.rg.name
   infrastructure_subnet_id           = var.subnet_id
