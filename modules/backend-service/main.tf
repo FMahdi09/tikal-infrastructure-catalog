@@ -23,6 +23,7 @@ resource "azurerm_linux_web_app" "service" {
   virtual_network_subnet_id = var.service_subnet_id
 
   site_config {
+    always_on                     = false
     ip_restriction_default_action = "Deny"
 
     ip_restriction {
