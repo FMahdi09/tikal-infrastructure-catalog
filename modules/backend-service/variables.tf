@@ -65,3 +65,9 @@ variable "database_credentials" {
     password = string
   })
 }
+
+variable "secrets" {
+  description = "List of additional secrets to store in the key vault"
+  type        = map(any)
+  default     = {}
+}

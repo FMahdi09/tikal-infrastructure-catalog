@@ -152,6 +152,15 @@ resource "azurerm_key_vault_secret" "identity_db_name" {
   depends_on = [azurerm_key_vault_access_policy.client-config]
 }
 
+resource "azurerm_key_vault_secret" "additional_secrets" {
+  for_each = var.secrets
+
+  key_vault_id = azurerm_key_vault.current.id
+  name         = each.key
+  value        = each.value
+  depends_on   = [azurerm_key_vault_access_policy.client-config]
+}
+
 resource "azurerm_key_vault_access_policy" "client-config" {
   key_vault_id = azurerm_key_vault.current.id
   tenant_id    = data.azurerm_client_config.current.tenant_id
