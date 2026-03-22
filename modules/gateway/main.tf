@@ -83,6 +83,25 @@ resource "azurerm_application_gateway" "gateway" {
     public_ip_address_id = var.public_ip_id
   }
 
+  rewrite_rule_set {
+    name = "forward-headers"
+
+    rewrite_rule {
+      name          = "set-forwarded-headers"
+      rule_sequence = 100
+
+      request_header_configuration {
+        header_name  = "X-Forwarded-Host"
+        header_value = "{var_host}"
+      }
+
+      request_header_configuration {
+        header_name  = "X-Forwarded-Proto"
+        header_value = "https"
+      }
+    }
+  }
+
   dynamic "probe" {
     for_each = var.listeners
     content {
@@ -133,6 +152,7 @@ resource "azurerm_application_gateway" "gateway" {
       http_listener_name         = "${request_routing_rule.key}-listener"
       backend_address_pool_name  = "${request_routing_rule.key}-pool"
       backend_http_settings_name = "${request_routing_rule.key}-http-settings"
+      rewrite_rule_set_name      = "forward-headers"
     }
   }
 
