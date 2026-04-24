@@ -19,3 +19,10 @@ variable "dns_a_records" {
     ip_address = string
   }))
 }
+
+variable "dns_cname_records" {
+  description = "Map of dns cname records to create with their assigned domain"
+  type = map(object({
+    domain = string
+  }))
+}
